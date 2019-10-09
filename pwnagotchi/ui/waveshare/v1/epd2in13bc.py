@@ -35,8 +35,10 @@ EPD_WIDTH       = 104
 EPD_HEIGHT      = 212
 
 ## 1 = debug on, 0 = debug off
-## CAUTION: significant output from send_data function
 DEBUG = 0
+## CAUTION: significant output from send_data function
+## Debug send_data function
+DEBUG_SD = 0
 
 def init_logging(name, filename, stream_log):
     formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
@@ -106,7 +108,7 @@ class EPD:
         epdconfig.digital_write(self.cs_pin, 1)
 
     def send_data(self, data): 
-        if DEBUG :
+        if DEBUG and DEBUG_SD :
             self.d_logger.debug("send_data(self, data)")
             self.d_logger.debug(data)
 
