@@ -126,11 +126,16 @@ class Display(View):
     def _is_waveshare_v1(self):
         return self._display_type in ('waveshare_1', 'ws_1', 'waveshare1', 'ws1')
 
+    ## added to suppor waveshare v1 color displays
+    def _is_waveshare_v1c(self):
+        return self._display_type in ('waveshare_1color', 'ws_1c', 'waveshare1color', 'ws1c')
+
     def _is_waveshare_v2(self):
         return self._display_type in ('waveshare_2', 'ws_2', 'waveshare2', 'ws2')
 
+    ## updated to support waveshare v1 color displays
     def _is_waveshare(self):
-        return self._is_waveshare_v1() or self._is_waveshare_v2()
+        return self._is_waveshare_v1() or self._is_waveshare_v1c() or self._is_waveshare_v2()
 
     def _init_display(self):
         if self._is_inky():
@@ -151,6 +156,16 @@ class Display(View):
         elif self._is_waveshare_v1():
             logging.info("initializing waveshare v1 display")
             from pwnagotchi.ui.waveshare.v1.epd2in13 import EPD
+            self._display = EPD()
+            self._display.init(self._display.lut_full_update)
+            self._display.Clear(0xFF)
+            self._display.init(self._display.lut_partial_update)
+            self._render_cb = self._waveshare_render
+
+        ## added to support waveshare v1 color displays
+        elif self._is_waveshare_v1c():
+            logging.info("initializing waveshare v1 color display")
+            from pwnagotchi.ui.waveshare.v1.epd2in13bc import EPD
             self._display = EPD()
             self._display.init(self._display.lut_full_update)
             self._display.Clear(0xFF)
@@ -222,7 +237,8 @@ class Display(View):
 
     def _waveshare_render(self):
         buf = self._display.getbuffer(self._canvas)
-        if self._is_waveshare_v1():
+        ## updated to support waveshare v1 displays
+        if self._is_waveshare_v1() or self._is_waveshare_v1c():
             self._display.display(buf)
         elif self._is_waveshare_v2():
             self._display.displayPartial(buf)
