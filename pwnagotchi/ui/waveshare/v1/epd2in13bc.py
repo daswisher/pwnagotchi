@@ -162,11 +162,8 @@ class EPD:
         return 0
 
     def getbuffer(self, image):
-############################
-####  ADDED BY CDIEMEL  #### 
         if DEBUG :
             self.d_logger.debug("getbuffer(self, image)")
-############################
 
         # logging.debug("bufsiz = ",int(self.width/8) * self.height)
         buf = [0xFF] * (int(self.width/8) * self.height)
@@ -193,12 +190,9 @@ class EPD:
 
 #    def display(self, imageblack, imagered):
     def display(self, *argv):
-############################
-####  ADDED BY CDIEMEL  #### 
         if DEBUG :
             self.d_logger.debug("display(self, imageblack, imagered)")
             self.d_logger.debug(argv[0])
-############################
         
         if len(argv) == 1:
             imageblack = argv[0]
@@ -223,12 +217,9 @@ class EPD:
         self.ReadBusy()
         
     def Clear(self, color):
-############################
-####  ADDED BY CDIEMEL  #### 
         if DEBUG :
             self.d_logger.debug("Clear(self, color)")
             self.d_logger.debug(color)
-############################
 
         self.send_command(0x10)
         for i in range(0, int(self.width * self.height / 8)):
@@ -244,11 +235,8 @@ class EPD:
         self.ReadBusy()
 
     def sleep(self):
-############################
-####  ADDED BY CDIEMEL  #### 
         if DEBUG :
             self.d_logger.debug("sleep(self)")
-############################
 
         self.send_command(0x02) # POWER_OFF
         self.ReadBusy()
