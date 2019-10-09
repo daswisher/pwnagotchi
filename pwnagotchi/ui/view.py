@@ -51,7 +51,17 @@ def setup_display_specifics(config):
         face_pos = (0, 40)
         name_pos = (125, 20)
         status_pos = (125, 35)
+        
+## Added to support waveshare v1 color displays
+    elif config['ui']['display']['type'] in ('ws_1c', 'ws1c', 'waveshare_1_color', 'waveshare1color':
+        fonts.setup(10, 9, 10, 35)
 
+        width = 212
+        height = 104
+        face_pos = (0, 40)
+        name_pos = (125, 20)
+        status_pos = (125, 35)
+        
     return width, height, face_pos, name_pos, status_pos
 
 
